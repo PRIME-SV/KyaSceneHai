@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const PLAYER_ELEMENT_ID = "vibeplay-yt-player";
+/** How long to wait for a playlist to start before treating it as missing. */
+const PLAYLIST_LOAD_TIMEOUT_MS = 3500;
 
 let apiLoading: Promise<void> | null = null;
 
@@ -54,14 +56,24 @@ type UseYouTubePlayerOptions = {
   startMuted?: boolean;
 };
 
+/**
+ * Recreates the YT player when the mood playlist changes.
+ * That way a missing/invalid list cannot keep playing the previous mood —
+ * the old player is destroyed first, so audio goes silent on failure.
+ */
 export function useYouTubePlayer({
   initialPlaylistId,
   startMuted = false,
 }: UseYouTubePlayerOptions) {
-  const playerRef = useRef<YT.Player | null>(null);
-  const initialPlaylistRef = useRef(initialPlaylistId);
   const startMutedRef = useRef(startMuted);
+  const playlistIdRef = useRef(initialPlaylistId);
+  const autoplayRef = useRef(false);
+  const playerRef = useRef<YT.Player | null>(null);
+  const readyRef = useRef(false);
+  const loadTokenRef = useRef(0);
+  const watchdogRef = useRef<number | null>(null);
 
+  const [playerKey, setPlayerKey] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(startMuted);
@@ -72,31 +84,56 @@ export function useYouTubePlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  const clearWatchdog = useCallback(() => {
+    if (watchdogRef.current != null) {
+      window.clearTimeout(watchdogRef.current);
+      watchdogRef.current = null;
+    }
+  }, []);
+
+  const markUnavailable = useCallback(() => {
+    clearWatchdog();
+    try {
+      playerRef.current?.stopVideo();
+    } catch {
+      // ignore
+    }
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+    setTrack({ title: "Playlist unavailable", videoId: null });
+  }, [clearWatchdog]);
+
   const syncTrack = useCallback(() => {
     const player = playerRef.current;
     if (!player) return;
     try {
       const data = player.getVideoData();
+      const videoId = data?.video_id ?? null;
+      if (!videoId) return false;
       const title = data?.title?.trim();
       setTrack({
         title: title || "YouTube Music",
-        videoId: data?.video_id ?? null,
+        videoId,
       });
       const d = player.getDuration();
       if (Number.isFinite(d) && d > 0) setDuration(d);
+      return true;
     } catch {
-      // player not fully ready
+      return false;
     }
   }, []);
 
   useEffect(() => {
     let cancelled = false;
+    const token = loadTokenRef.current;
+    const listId = playlistIdRef.current;
+    const shouldAutoplay = autoplayRef.current;
 
     async function init() {
       await loadYouTubeApi();
       if (cancelled || !window.YT?.Player) return;
-
-      if (playerRef.current) return;
+      if (token !== loadTokenRef.current) return;
 
       const mount = document.getElementById(PLAYER_ELEMENT_ID);
       if (!mount) return;
@@ -106,7 +143,7 @@ export function useYouTubePlayer({
         width: "0",
         playerVars: {
           listType: "playlist",
-          list: initialPlaylistRef.current,
+          list: listId,
           autoplay: 0,
           controls: 0,
           disablekb: 1,
@@ -118,15 +155,47 @@ export function useYouTubePlayer({
         },
         events: {
           onReady: (event) => {
+            if (cancelled || token !== loadTokenRef.current) return;
+
             if (startMutedRef.current) {
               event.target.mute();
               setIsMuted(true);
             }
+
+            readyRef.current = true;
             setIsReady(true);
+
+            const hasVideo = Boolean(event.target.getVideoData()?.video_id);
+            if (!hasVideo) {
+              // Invalid / empty playlist — stay silent.
+              markUnavailable();
+              return;
+            }
+
+            if (shouldAutoplay) {
+              event.target.playVideo();
+              setIsPlaying(true);
+            }
             syncTrack();
+
+            // Some bad list IDs never error and never produce a playing state.
+            clearWatchdog();
+            watchdogRef.current = window.setTimeout(() => {
+              if (token !== loadTokenRef.current) return;
+              const state = playerRef.current?.getPlayerState();
+              const playingOrCued =
+                state === 1 || state === 3 || state === 5 || state === 2;
+              const ok = syncTrack();
+              if (shouldAutoplay && (!playingOrCued || !ok)) {
+                markUnavailable();
+              }
+            }, PLAYLIST_LOAD_TIMEOUT_MS);
           },
           onStateChange: (event) => {
+            if (cancelled || token !== loadTokenRef.current) return;
+
             if (event.data === 1) {
+              clearWatchdog();
               setIsPlaying(true);
               syncTrack();
             }
@@ -134,9 +203,25 @@ export function useYouTubePlayer({
             if (event.data === 0) {
               event.target.nextVideo();
             }
-            if (event.data === 3 || event.data === 5) {
+            if (event.data === 3) {
               syncTrack();
             }
+            if (event.data === 5) {
+              clearWatchdog();
+              const hasVideo = Boolean(event.target.getVideoData()?.video_id);
+              if (!hasVideo) {
+                markUnavailable();
+                return;
+              }
+              syncTrack();
+              if (shouldAutoplay && autoplayRef.current) {
+                event.target.playVideo();
+              }
+            }
+          },
+          onError: () => {
+            if (cancelled || token !== loadTokenRef.current) return;
+            markUnavailable();
           },
         },
       });
@@ -146,6 +231,13 @@ export function useYouTubePlayer({
 
     return () => {
       cancelled = true;
+      clearWatchdog();
+      readyRef.current = false;
+      try {
+        playerRef.current?.stopVideo();
+      } catch {
+        // ignore
+      }
       try {
         playerRef.current?.destroy();
       } catch {
@@ -154,7 +246,7 @@ export function useYouTubePlayer({
       playerRef.current = null;
       setIsReady(false);
     };
-  }, [syncTrack]);
+  }, [playerKey, clearWatchdog, markUnavailable, syncTrack]);
 
   useEffect(() => {
     if (!isReady || !isPlaying) return;
@@ -176,9 +268,16 @@ export function useYouTubePlayer({
   }, [isReady, isPlaying]);
 
   const play = useCallback(() => {
-    playerRef.current?.playVideo();
+    const player = playerRef.current;
+    if (!player) return;
+    const data = player.getVideoData();
+    if (!data?.video_id) {
+      markUnavailable();
+      return;
+    }
+    player.playVideo();
     setIsPlaying(true);
-  }, []);
+  }, [markUnavailable]);
 
   const pause = useCallback(() => {
     playerRef.current?.pauseVideo();
@@ -231,32 +330,33 @@ export function useYouTubePlayer({
 
   const loadMood = useCallback(
     (playlistId: string, autoplay = true) => {
-      const player = playerRef.current;
-      if (!player) return;
+      // Silence immediately — do not keep the previous mood playing.
+      clearWatchdog();
+      try {
+        playerRef.current?.stopVideo();
+      } catch {
+        // ignore
+      }
 
-      player.loadPlaylist({
-        list: playlistId,
-        listType: "playlist",
-        index: 0,
-      });
+      playlistIdRef.current = playlistId;
+      autoplayRef.current = autoplay;
+      loadTokenRef.current += 1;
 
+      setIsPlaying(false);
       setCurrentTime(0);
       setDuration(0);
       setTrack({ title: "Loading…", videoId: null });
 
-      if (autoplay) {
-        window.setTimeout(() => {
-          player.playVideo();
-          setIsPlaying(true);
-          syncTrack();
-        }, 100);
-      }
+      // Remount host + rebuild player with only this playlist.
+      // Effect cleanup destroys the old player so it cannot resume.
+      setPlayerKey((key) => key + 1);
     },
-    [syncTrack],
+    [clearWatchdog],
   );
 
   return {
     playerElementId: PLAYER_ELEMENT_ID,
+    playerKey,
     isReady,
     isPlaying,
     isMuted,

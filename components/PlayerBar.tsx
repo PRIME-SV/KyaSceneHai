@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type PlayerBarProps = {
   isReady: boolean;
@@ -38,6 +39,7 @@ export function PlayerBar({
   onSeek,
   onToggleMute,
 }: PlayerBarProps) {
+  const { t } = useLanguage();
   const barRef = useRef<HTMLDivElement>(null);
   const progress = duration > 0 ? Math.min(1, currentTime / duration) : 0;
   const thumb = videoId
@@ -69,7 +71,7 @@ export function PlayerBar({
         <p className="truncate text-sm font-medium text-[#f5efe6] sm:text-[0.95rem]">
           {title}
         </p>
-        <p className="truncate text-xs text-white/50">Credits: YouTube</p>
+        <p className="truncate text-xs text-white/50">{t("creditsYoutube")}</p>
         <div className="mt-2 flex items-center gap-2">
           <span className="w-8 shrink-0 text-[0.65rem] tabular-nums text-white/45">
             {formatTime(currentTime)}
@@ -77,7 +79,7 @@ export function PlayerBar({
           <div
             ref={barRef}
             role="slider"
-            aria-label="Seek"
+            aria-label={t("seek")}
             aria-valuemin={0}
             aria-valuemax={Math.floor(duration)}
             aria-valuenow={Math.floor(currentTime)}
@@ -110,7 +112,7 @@ export function PlayerBar({
           type="button"
           disabled={!isReady}
           onClick={onPrevious}
-          aria-label="Previous track"
+          aria-label={t("previousTrack")}
           className="flex h-10 w-10 items-center justify-center rounded-full text-white/85 transition enabled:hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <PrevIcon />
@@ -119,7 +121,7 @@ export function PlayerBar({
           type="button"
           disabled={!isReady}
           onClick={onTogglePlay}
-          aria-label={isPlaying ? "Pause" : "Play"}
+          aria-label={isPlaying ? t("pause") : t("play")}
           className="control-primary flex h-12 w-12 items-center justify-center rounded-full text-[#1a0d0a] transition enabled:hover:scale-105 enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-14 sm:w-14"
         >
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -128,7 +130,7 @@ export function PlayerBar({
           type="button"
           disabled={!isReady}
           onClick={onNext}
-          aria-label="Next track"
+          aria-label={t("nextTrack")}
           className="flex h-10 w-10 items-center justify-center rounded-full text-white/85 transition enabled:hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <NextIcon />
@@ -137,7 +139,7 @@ export function PlayerBar({
           type="button"
           disabled={!isReady}
           onClick={onToggleMute}
-          aria-label={isMuted ? "Unmute" : "Mute"}
+          aria-label={isMuted ? t("unmute") : t("mute")}
           className="hidden h-10 w-10 items-center justify-center rounded-full text-white/85 transition enabled:hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40 sm:flex"
         >
           {isMuted ? <MuteIcon /> : <VolumeIcon />}

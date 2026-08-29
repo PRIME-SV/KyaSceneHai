@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Libre_Baskerville, Mukta } from "next/font/google";
-import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/data/site";
+import {
+  SITE_NAME,
+  SITE_TAGLINE,
+  STORAGE_KEYS,
+  getSiteDescription,
+} from "@/data/site";
 import "./globals.css";
 
 const display = Mukta({
@@ -24,13 +29,14 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibeplay.local",
+  ),
   title: {
     default: `${SITE_NAME} — ${SITE_TAGLINE}`,
     template: `%s — ${SITE_NAME}`,
   },
-  description:
-    "Pick a mood and play the perfect YouTube playlist — chai, driving, rain, studying, and more. One tap, no account needed.",
+  description: getSiteDescription("mr"),
   applicationName: SITE_NAME,
   openGraph: {
     siteName: SITE_NAME,
@@ -46,9 +52,17 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="mr"
       className={`${display.variable} ${serif.variable} ${body.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var l=localStorage.getItem(${JSON.stringify(STORAGE_KEYS.locale)});if(l==="mr"||l==="en")document.documentElement.lang=l}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="min-h-full font-sans">{children}</body>
     </html>
   );

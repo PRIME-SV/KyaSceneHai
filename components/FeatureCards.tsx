@@ -1,21 +1,26 @@
-import { FEATURES } from "@/data/site";
+"use client";
+
+import { useLanguage } from "@/components/LanguageProvider";
+import { FEATURE_KEYS } from "@/data/i18n";
 
 export function FeatureCards() {
+  const { t } = useLanguage();
+
   return (
     <section className="mx-auto grid w-full max-w-5xl gap-4 px-5 sm:grid-cols-3 sm:gap-5 sm:px-8">
-      {FEATURES.map((feature) => (
+      {FEATURE_KEYS.map((feature) => (
         <article
-          key={feature.title}
+          key={feature.titleKey}
           className="salon-card px-5 py-6 sm:px-6 sm:py-7"
         >
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--gold)]/45 text-[var(--gold)]">
             <FeatureIcon name={feature.icon} />
           </div>
           <h3 className="text-lg font-semibold tracking-tight text-[var(--gold)]">
-            {feature.title}
+            {t(feature.titleKey)}
           </h3>
           <p className="mt-2 text-[0.95rem] leading-relaxed text-white/55">
-            {feature.body}
+            {t(feature.bodyKey)}
           </p>
         </article>
       ))}
@@ -23,7 +28,7 @@ export function FeatureCards() {
   );
 }
 
-function FeatureIcon({ name }: { name: (typeof FEATURES)[number]["icon"] }) {
+function FeatureIcon({ name }: { name: (typeof FEATURE_KEYS)[number]["icon"] }) {
   if (name === "music") {
     return (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

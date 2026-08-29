@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ContentSections } from "@/components/ContentSections";
 import { Footer } from "@/components/Footer";
 import { HeroCopy } from "@/components/HeroCopy";
+import { LanguageProvider, useLanguage } from "@/components/LanguageProvider";
 import { MoodBackground } from "@/components/MoodBackground";
-import { MoodGrid } from "@/components/MoodGrid";
+import { MoodCarousel } from "@/components/MoodCarousel";
 import { Player } from "@/components/Player";
 import { PlayerBar } from "@/components/PlayerBar";
 import { TopBar } from "@/components/TopBar";
-import { getMoodById, moods, type Mood } from "@/data/moods";
+import { getMoodById, getMoodCopy, moods, type Mood } from "@/data/moods";
 import { SITE_NAME, STORAGE_KEYS } from "@/data/site";
 import { useMoodTheme } from "@/hooks/useMoodTheme";
 import { useYouTubePlayer } from "@/hooks/useYouTubePlayer";
@@ -20,17 +20,29 @@ type MoodExperienceProps = {
 };
 
 export function MoodExperience({ initialMood }: MoodExperienceProps) {
-  const router = useRouter();
-  const [activeMood, setActiveMood] = useState(initialMood);
-  const [routeMoodId, setRouteMoodId] = useState(initialMood.id);
-  const [hasUserStarted, setHasUserStarted] = useState(false);
-  const skipRouteLoadRef = useRef(false);
-  const moodsRef = useRef<HTMLDivElement>(null);
+  return (
+    <LanguageProvider>
+      <MoodExperienceInner initialMood={initialMood} />
+    </LanguageProvider>
+  );
+}
 
-  if (initialMood.id !== routeMoodId) {
-    setRouteMoodId(initialMood.id);
-    setActiveMood(initialMood);
-  }
+function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
+  const { locale, t } = useLanguage();
+  const [activeMood, setActiveMood] = useState(
+    () => getMoodById(initialMood.id) ?? moods[0] ?? initialMood,
+  );
+  const [hasUserStarted, setHasUserStarted] = useState(false);
+
+  // Keep selection valid if the active mood was removed from data.
+  useEffect(() => {
+    if (moods.length === 0) return;
+    if (!moods.some((mood) => mood.id === activeMood.id)) {
+      setActiveMood(moods[0]);
+    }
+  }, [activeMood.id]);
+
+  const copy = getMoodCopy(activeMood, locale);
 
   const startMuted = useMemo(() => {
     if (typeof window === "undefined") return false;
@@ -43,6 +55,7 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
   const {
     playerElementId,
+    playerKey,
     isReady,
     isPlaying,
     isMuted,
@@ -64,15 +77,6 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
   useMoodTheme(activeMood);
 
   useEffect(() => {
-    if (skipRouteLoadRef.current) {
-      skipRouteLoadRef.current = false;
-      return;
-    }
-    if (!hasUserStarted || !isReady) return;
-    loadMood(initialMood.playlistId, true);
-  }, [initialMood.id, initialMood.playlistId, hasUserStarted, isReady, loadMood]);
-
-  useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEYS.muted, isMuted ? "1" : "0");
     } catch {
@@ -85,28 +89,21 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
       const nextMood = getMoodById(moodId);
       if (!nextMood) return;
 
-      skipRouteLoadRef.current = true;
+      const sameMood = nextMood.id === activeMood.id;
       setActiveMood(nextMood);
-      router.replace(`/${nextMood.id}`, { scroll: false });
-
       setHasUserStarted(true);
-      if (isReady) {
-        if (nextMood.id === activeMood.id) {
-          play();
-        } else {
-          loadMood(nextMood.playlistId, true);
-        }
-      }
-    },
-    [activeMood.id, isReady, loadMood, play, router],
-  );
 
-  const handleChangeTheme = useCallback(() => {
-    const idx = moods.findIndex((m) => m.id === activeMood.id);
-    const nextMood = moods[(idx + 1) % moods.length];
-    handleSelectMood(nextMood.id);
-    moodsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [activeMood.id, handleSelectMood]);
+      if (sameMood) {
+        if (isReady) play();
+        return;
+      }
+
+      // Always request the playlist for this mood. loadMood queues if the
+      // player is not ready yet, so the UI mood and audio stay in sync.
+      loadMood(nextMood.playlistId, true);
+    },
+    [activeMood.id, isReady, loadMood, play],
+  );
 
   const handleTogglePlay = useCallback(() => {
     setHasUserStarted(true);
@@ -115,40 +112,36 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
   return (
     <>
-      <Player elementId={playerElementId} />
+      <Player elementId={playerElementId} instanceKey={playerKey} />
 
       <section className="relative flex min-h-dvh flex-col overflow-hidden">
         <MoodBackground mood={activeMood} />
-        <TopBar onChangeTheme={handleChangeTheme} />
+        <TopBar />
 
         <div className="relative z-10 flex flex-1 flex-col justify-center gap-7 py-4 sm:gap-9 sm:py-6">
-          <HeroCopy
-            headline={activeMood.headline}
-            subtitle={activeMood.subtitle}
-          />
-          <div ref={moodsRef}>
-            <MoodGrid
-              moods={moods}
-              activeId={activeMood.id}
-              onSelect={handleSelectMood}
-              compact
-            />
-          </div>
+          <HeroCopy headline={copy.headline} subtitle={copy.subtitle} />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center px-4 pb-4 sm:px-6 sm:pb-5">
+        <div className="relative z-10 flex flex-col items-center gap-3 px-4 pb-4 sm:gap-3.5 sm:px-6 sm:pb-5">
           <a
             href="#about"
-            className="mb-3 flex flex-col items-center gap-0.5 text-[0.65rem] font-semibold tracking-[0.28em] text-white/55 uppercase transition hover:text-white/80"
+            className="flex flex-col items-center gap-0.5 text-[0.65rem] font-semibold tracking-[0.28em] text-white/55 uppercase transition hover:text-white/80"
           >
-            Scroll
+            {t("scroll")}
             <ChevronDownIcon />
           </a>
+
+          <MoodCarousel
+            moods={moods}
+            activeId={activeMood.id}
+            onSelect={handleSelectMood}
+          />
+
           <PlayerBar
             isReady={isReady}
             isPlaying={isPlaying}
             isMuted={isMuted}
-            title={hasUserStarted ? track.title : "Press play"}
+            title={hasUserStarted ? track.title : t("pressPlay")}
             videoId={track.videoId}
             currentTime={currentTime}
             duration={duration}
@@ -163,8 +156,8 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
       <ContentSections
         siteName={SITE_NAME}
-        introHeading={activeMood.introHeading}
-        introBody={activeMood.introBody}
+        introHeading={copy.introHeading}
+        introBody={copy.introBody}
         playlistId={activeMood.playlistId}
       />
       <Footer playlistId={activeMood.playlistId} />
