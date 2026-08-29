@@ -6,16 +6,21 @@ type MoodGridProps = {
   moods: Mood[];
   activeId: string;
   onSelect: (moodId: string) => void;
+  compact?: boolean;
 };
 
-export function MoodGrid({ moods, activeId, onSelect }: MoodGridProps) {
+export function MoodGrid({ moods, activeId, onSelect, compact = false }: MoodGridProps) {
+  const visible = compact
+    ? pickFeaturedMoods(moods, activeId)
+    : moods;
+
   return (
     <div
-      className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
+      className="mx-auto flex w-full max-w-lg flex-wrap items-center justify-center gap-2 px-4 sm:gap-2.5"
       role="listbox"
       aria-label="Choose a mood"
     >
-      {moods.map((mood) => {
+      {visible.map((mood) => {
         const active = mood.id === activeId;
         return (
           <button
@@ -24,22 +29,28 @@ export function MoodGrid({ moods, activeId, onSelect }: MoodGridProps) {
             role="option"
             aria-selected={active}
             onClick={() => onSelect(mood.id)}
+            title={mood.label}
             className={[
-              "mood-button group flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl border px-3 py-3 text-center transition duration-300",
-              "bg-white/5 backdrop-blur-sm hover:bg-white/10",
+              "mood-button inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm transition duration-300",
+              "pill-glass hover:bg-black/50",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
-              active ? "active border-[var(--accent)]" : "border-white/15",
+              active ? "active border-[var(--accent)] text-white" : "border-white/20 text-white/85",
             ].join(" ")}
           >
-            <span className="text-2xl leading-none" aria-hidden>
+            <span className="text-base leading-none" aria-hidden>
               {mood.emoji}
             </span>
-            <span className="font-display text-sm tracking-wide text-white/90 sm:text-base">
-              {mood.label}
-            </span>
+            <span className="font-medium tracking-wide">{mood.label}</span>
           </button>
         );
       })}
     </div>
   );
+}
+
+function pickFeaturedMoods(moods: Mood[], activeId: string): Mood[] {
+  const active = moods.find((m) => m.id === activeId);
+  const rest = moods.filter((m) => m.id !== activeId);
+  const featured = active ? [active, ...rest.slice(0, 2)] : rest.slice(0, 3);
+  return featured;
 }

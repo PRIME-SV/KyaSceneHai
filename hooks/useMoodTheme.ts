@@ -9,11 +9,11 @@ export function useMoodTheme(mood: Mood) {
     const root = document.documentElement;
     root.style.setProperty("--accent", mood.theme.accent);
     root.style.setProperty("--overlay", mood.theme.overlay);
-    root.style.setProperty("--theme-color", mood.theme.accent);
+    root.style.setProperty("--theme-color", "#0a0807");
 
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      meta.setAttribute("content", mood.theme.accent);
+      meta.setAttribute("content", "#0a0807");
     }
 
     try {

@@ -2,14 +2,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ContentSections } from "@/components/ContentSections";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { HeroCopy } from "@/components/HeroCopy";
 import { MoodBackground } from "@/components/MoodBackground";
 import { MoodGrid } from "@/components/MoodGrid";
 import { Player } from "@/components/Player";
-import { PlayerControls } from "@/components/PlayerControls";
+import { PlayerBar } from "@/components/PlayerBar";
+import { TopBar } from "@/components/TopBar";
 import { getMoodById, moods, type Mood } from "@/data/moods";
-import { STORAGE_KEYS } from "@/data/site";
+import { SITE_NAME, STORAGE_KEYS } from "@/data/site";
 import { useMoodTheme } from "@/hooks/useMoodTheme";
 import { useYouTubePlayer } from "@/hooks/useYouTubePlayer";
 
@@ -23,8 +25,8 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
   const [routeMoodId, setRouteMoodId] = useState(initialMood.id);
   const [hasUserStarted, setHasUserStarted] = useState(false);
   const skipRouteLoadRef = useRef(false);
+  const moodsRef = useRef<HTMLDivElement>(null);
 
-  // Sync local mood when the URL changes (back/forward) — adjust during render
   if (initialMood.id !== routeMoodId) {
     setRouteMoodId(initialMood.id);
     setActiveMood(initialMood);
@@ -44,9 +46,14 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
     isReady,
     isPlaying,
     isMuted,
+    track,
+    currentTime,
+    duration,
     togglePlay,
     toggleMute,
     next,
+    previous,
+    seek,
     loadMood,
     play,
   } = useYouTubePlayer({
@@ -56,7 +63,6 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
   useMoodTheme(activeMood);
 
-  // Load playlist when route mood changes from outside (not from our own click)
   useEffect(() => {
     if (skipRouteLoadRef.current) {
       skipRouteLoadRef.current = false;
@@ -95,6 +101,13 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
     [activeMood.id, isReady, loadMood, play, router],
   );
 
+  const handleChangeTheme = useCallback(() => {
+    const idx = moods.findIndex((m) => m.id === activeMood.id);
+    const nextMood = moods[(idx + 1) % moods.length];
+    handleSelectMood(nextMood.id);
+    moodsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeMood.id, handleSelectMood]);
+
   const handleTogglePlay = useCallback(() => {
     setHasUserStarted(true);
     togglePlay();
@@ -102,43 +115,67 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
   return (
     <>
-      <MoodBackground mood={activeMood} />
       <Player elementId={playerElementId} />
 
-      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-5xl flex-col px-5 py-8 sm:px-8 sm:py-10">
-        <Header tagline={activeMood.tagline} />
+      <section className="relative flex min-h-dvh flex-col overflow-hidden">
+        <MoodBackground mood={activeMood} />
+        <TopBar onChangeTheme={handleChangeTheme} />
 
-        <main className="flex flex-1 flex-col justify-center gap-10 py-10 sm:gap-12">
-          <section className="space-y-4">
-            <h2 className="font-display text-sm uppercase tracking-[0.2em] text-white/50">
-              Pick a vibe
-            </h2>
+        <div className="relative z-10 flex flex-1 flex-col justify-center gap-7 py-4 sm:gap-9 sm:py-6">
+          <HeroCopy
+            headline={activeMood.headline}
+            subtitle={activeMood.subtitle}
+          />
+          <div ref={moodsRef}>
             <MoodGrid
               moods={moods}
               activeId={activeMood.id}
               onSelect={handleSelectMood}
+              compact
             />
-          </section>
+          </div>
+        </div>
 
-          <section className="space-y-3">
-            <PlayerControls
-              isReady={isReady}
-              isPlaying={isPlaying}
-              isMuted={isMuted}
-              onTogglePlay={handleTogglePlay}
-              onToggleMute={toggleMute}
-              onNext={next}
-            />
-            {!hasUserStarted && (
-              <p className="text-sm text-white/50">
-                Tap a mood or press play to start the music.
-              </p>
-            )}
-          </section>
-        </main>
+        <div className="relative z-10 flex flex-col items-center px-4 pb-4 sm:px-6 sm:pb-5">
+          <a
+            href="#about"
+            className="mb-3 flex flex-col items-center gap-0.5 text-[0.65rem] font-semibold tracking-[0.28em] text-white/55 uppercase transition hover:text-white/80"
+          >
+            Scroll
+            <ChevronDownIcon />
+          </a>
+          <PlayerBar
+            isReady={isReady}
+            isPlaying={isPlaying}
+            isMuted={isMuted}
+            title={hasUserStarted ? track.title : "Press play"}
+            videoId={track.videoId}
+            currentTime={currentTime}
+            duration={duration}
+            onTogglePlay={handleTogglePlay}
+            onPrevious={previous}
+            onNext={next}
+            onSeek={seek}
+            onToggleMute={toggleMute}
+          />
+        </div>
+      </section>
 
-        <Footer />
-      </div>
+      <ContentSections
+        siteName={SITE_NAME}
+        introHeading={activeMood.introHeading}
+        introBody={activeMood.introBody}
+        playlistId={activeMood.playlistId}
+      />
+      <Footer playlistId={activeMood.playlistId} />
     </>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M12 16.5 4.5 9l1.4-1.4L12 13.7l6.1-6.1L19.5 9 12 16.5z" />
+    </svg>
   );
 }

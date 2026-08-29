@@ -44,6 +44,11 @@ function loadYouTubeApi(): Promise<void> {
   return apiLoading;
 }
 
+export type TrackInfo = {
+  title: string;
+  videoId: string | null;
+};
+
 type UseYouTubePlayerOptions = {
   initialPlaylistId: string;
   startMuted?: boolean;
@@ -60,6 +65,29 @@ export function useYouTubePlayer({
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(startMuted);
+  const [track, setTrack] = useState<TrackInfo>({
+    title: "Press play",
+    videoId: null,
+  });
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const syncTrack = useCallback(() => {
+    const player = playerRef.current;
+    if (!player) return;
+    try {
+      const data = player.getVideoData();
+      const title = data?.title?.trim();
+      setTrack({
+        title: title || "YouTube Music",
+        videoId: data?.video_id ?? null,
+      });
+      const d = player.getDuration();
+      if (Number.isFinite(d) && d > 0) setDuration(d);
+    } catch {
+      // player not fully ready
+    }
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -68,7 +96,6 @@ export function useYouTubePlayer({
       await loadYouTubeApi();
       if (cancelled || !window.YT?.Player) return;
 
-      // Avoid recreating if hot-reload left a player
       if (playerRef.current) return;
 
       const mount = document.getElementById(PLAYER_ELEMENT_ID);
@@ -96,13 +123,19 @@ export function useYouTubePlayer({
               setIsMuted(true);
             }
             setIsReady(true);
+            syncTrack();
           },
           onStateChange: (event) => {
-            // YT.PlayerState: ENDED=0, PLAYING=1, PAUSED=2
-            if (event.data === 1) setIsPlaying(true);
+            if (event.data === 1) {
+              setIsPlaying(true);
+              syncTrack();
+            }
             if (event.data === 2) setIsPlaying(false);
             if (event.data === 0) {
               event.target.nextVideo();
+            }
+            if (event.data === 3 || event.data === 5) {
+              syncTrack();
             }
           },
         },
@@ -121,7 +154,26 @@ export function useYouTubePlayer({
       playerRef.current = null;
       setIsReady(false);
     };
-  }, []);
+  }, [syncTrack]);
+
+  useEffect(() => {
+    if (!isReady || !isPlaying) return;
+
+    const id = window.setInterval(() => {
+      const player = playerRef.current;
+      if (!player) return;
+      try {
+        const t = player.getCurrentTime();
+        const d = player.getDuration();
+        if (Number.isFinite(t)) setCurrentTime(t);
+        if (Number.isFinite(d) && d > 0) setDuration(d);
+      } catch {
+        // ignore
+      }
+    }, 500);
+
+    return () => window.clearInterval(id);
+  }, [isReady, isPlaying]);
 
   const play = useCallback(() => {
     playerRef.current?.playVideo();
@@ -166,30 +218,51 @@ export function useYouTubePlayer({
     playerRef.current?.nextVideo();
   }, []);
 
-  const loadMood = useCallback((playlistId: string, autoplay = true) => {
+  const previous = useCallback(() => {
+    playerRef.current?.previousVideo();
+  }, []);
+
+  const seek = useCallback((seconds: number) => {
     const player = playerRef.current;
     if (!player) return;
-
-    player.loadPlaylist({
-      list: playlistId,
-      listType: "playlist",
-      index: 0,
-    });
-
-    if (autoplay) {
-      // loadPlaylist often starts playback; call playVideo to satisfy gesture policies
-      window.setTimeout(() => {
-        player.playVideo();
-        setIsPlaying(true);
-      }, 100);
-    }
+    player.seekTo(seconds, true);
+    setCurrentTime(seconds);
   }, []);
+
+  const loadMood = useCallback(
+    (playlistId: string, autoplay = true) => {
+      const player = playerRef.current;
+      if (!player) return;
+
+      player.loadPlaylist({
+        list: playlistId,
+        listType: "playlist",
+        index: 0,
+      });
+
+      setCurrentTime(0);
+      setDuration(0);
+      setTrack({ title: "Loading…", videoId: null });
+
+      if (autoplay) {
+        window.setTimeout(() => {
+          player.playVideo();
+          setIsPlaying(true);
+          syncTrack();
+        }, 100);
+      }
+    },
+    [syncTrack],
+  );
 
   return {
     playerElementId: PLAYER_ELEMENT_ID,
     isReady,
     isPlaying,
     isMuted,
+    track,
+    currentTime,
+    duration,
     play,
     pause,
     togglePlay,
@@ -197,6 +270,8 @@ export function useYouTubePlayer({
     unmute,
     toggleMute,
     next,
+    previous,
+    seek,
     loadMood,
   };
 }

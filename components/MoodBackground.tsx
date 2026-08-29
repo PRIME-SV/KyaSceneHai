@@ -23,14 +23,13 @@ function WallpaperLayer({
     >
       <picture>
         <source media="(max-width: 767px)" srcSet={mood.wallpaper.mobile} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={mood.wallpaper.desktop}
           alt=""
           className="h-full w-full object-cover"
         />
       </picture>
-      <div className="absolute inset-0" style={{ background: "var(--overlay)" }} />
-      <div className="mood-vignette absolute inset-0" />
     </div>
   );
 }
@@ -46,7 +45,7 @@ export function MoodBackground({ mood }: MoodBackgroundProps) {
   }
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <WallpaperLayer mood={baseMood} />
       {incoming ? (
         <WallpaperLayer

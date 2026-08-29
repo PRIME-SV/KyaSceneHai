@@ -64,6 +64,12 @@ declare global {
       index?: number;
     }
 
+    interface VideoData {
+      title?: string;
+      author?: string;
+      video_id?: string;
+    }
+
     class Player {
       constructor(elementId: string | HTMLElement, options: PlayerOptions);
       playVideo(): void;
@@ -77,6 +83,10 @@ declare global {
       setVolume(volume: number): void;
       getVolume(): number;
       getPlayerState(): PlayerState;
+      getCurrentTime(): number;
+      getDuration(): number;
+      seekTo(seconds: number, allowSeekAhead?: boolean): void;
+      getVideoData(): VideoData;
       loadPlaylist(options: LoadPlaylistOptions | string[]): void;
       cuePlaylist(options: LoadPlaylistOptions | string[]): void;
       destroy(): void;

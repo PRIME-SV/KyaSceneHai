@@ -22,7 +22,7 @@ export function HomeRedirect() {
   }, [router]);
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-[#0c0b0a] text-white/70">
+    <div className="flex min-h-dvh items-center justify-center bg-[#05080c] text-white/70">
       <p className="font-display text-lg tracking-wide">Loading your vibe…</p>
     </div>
   );

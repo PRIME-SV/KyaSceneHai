@@ -1,15 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { DM_Sans, Libre_Baskerville, Mukta } from "next/font/google";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/data/site";
 import "./globals.css";
 
-const display = Fraunces({
-  subsets: ["latin"],
+const display = Mukta({
+  subsets: ["devanagari", "latin"],
   variable: "--font-display",
   display: "swap",
+  weight: ["500", "600", "700", "800"],
 });
 
-const body = Source_Sans_3({
+const serif = Libre_Baskerville({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+  weight: ["400", "700"],
+});
+
+const body = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -22,7 +30,7 @@ export const metadata: Metadata = {
     template: `%s — ${SITE_NAME}`,
   },
   description:
-    "Pick a mood and play the perfect YouTube playlist — chai, driving, rain, studying, and more.",
+    "Pick a mood and play the perfect YouTube playlist — chai, driving, rain, studying, and more. One tap, no account needed.",
   applicationName: SITE_NAME,
   openGraph: {
     siteName: SITE_NAME,
@@ -31,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#c98a3a",
+  themeColor: "#0a0807",
   colorScheme: "dark",
 };
 
@@ -39,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} h-full antialiased`}
+      className={`${display.variable} ${serif.variable} ${body.variable} h-full antialiased`}
     >
       <body className="min-h-full font-sans">{children}</body>
     </html>

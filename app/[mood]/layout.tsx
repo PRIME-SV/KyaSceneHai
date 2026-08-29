@@ -40,7 +40,7 @@ export async function generateMetadata({
       images: [ogImage],
     },
     other: {
-      "theme-color": mood.theme.accent,
+      "theme-color": "#0a0807",
     },
   };
 }
