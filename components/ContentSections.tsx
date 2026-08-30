@@ -28,14 +28,11 @@ export function ContentSections({
         className="mx-auto max-w-3xl scroll-mt-8 px-5 pt-16 pb-12 text-center sm:px-8 sm:pt-24 sm:pb-16"
       >
         <p className="text-[0.7rem] font-semibold tracking-[0.28em] text-[var(--gold)] uppercase sm:text-xs">
-          {t("welcomeTo")}
+          {t("welcomeTo")} {siteName}
         </p>
         <h2 className="mt-4 font-serif text-[clamp(1.85rem,4.8vw,2.85rem)] leading-tight font-bold tracking-tight text-white">
-          {siteName} — {t("siteTagline")}
-        </h2>
-        <p className="mt-3 font-serif text-lg text-white/90 sm:text-xl">
           {introHeading}
-        </p>
+        </h2>
         <p className="mt-5 text-base leading-relaxed text-white/60 sm:text-lg">
           {introBody}{" "}
           <a

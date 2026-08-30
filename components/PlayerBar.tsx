@@ -6,7 +6,6 @@ import { useLanguage } from "@/components/LanguageProvider";
 type PlayerBarProps = {
   isReady: boolean;
   isPlaying: boolean;
-  isMuted: boolean;
   title: string;
   videoId: string | null;
   currentTime: number;
@@ -15,7 +14,6 @@ type PlayerBarProps = {
   onPrevious: () => void;
   onNext: () => void;
   onSeek: (seconds: number) => void;
-  onToggleMute: () => void;
 };
 
 function formatTime(seconds: number) {
@@ -28,7 +26,6 @@ function formatTime(seconds: number) {
 export function PlayerBar({
   isReady,
   isPlaying,
-  isMuted,
   title,
   videoId,
   currentTime,
@@ -37,7 +34,6 @@ export function PlayerBar({
   onPrevious,
   onNext,
   onSeek,
-  onToggleMute,
 }: PlayerBarProps) {
   const { t } = useLanguage();
   const barRef = useRef<HTMLDivElement>(null);
@@ -135,15 +131,6 @@ export function PlayerBar({
         >
           <NextIcon />
         </button>
-        <button
-          type="button"
-          disabled={!isReady}
-          onClick={onToggleMute}
-          aria-label={isMuted ? t("unmute") : t("mute")}
-          className="hidden h-10 w-10 items-center justify-center rounded-full text-white/85 transition enabled:hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40 sm:flex"
-        >
-          {isMuted ? <MuteIcon /> : <VolumeIcon />}
-        </button>
       </div>
     </div>
   );
@@ -177,22 +164,6 @@ function NextIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
       <path d="M6 6v12l8.5-6L6 6zm9.5 0H18v12h-2.5V6z" />
-    </svg>
-  );
-}
-
-function VolumeIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M4 10v4h3.5L12 18V6L7.5 10H4zm11.5 2a3.5 3.5 0 0 0-1.5-2.85v5.7A3.5 3.5 0 0 0 15.5 12zm-1.5-7v1.55A6 6 0 0 1 18.5 12a6 6 0 0 1-4.5 5.45V19A7.5 7.5 0 0 0 20 12a7.5 7.5 0 0 0-6-7z" />
-    </svg>
-  );
-}
-
-function MuteIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M4 10v4h3.5L12 18V6L7.5 10H4zm12.7-3.3 1.4 1.4L16.4 10l1.7 1.9-1.4 1.4L15 11.4l-1.7 1.9-1.4-1.4L13.6 10l-1.7-1.9 1.4-1.4L15 8.6l1.7-1.9z" />
     </svg>
   );
 }

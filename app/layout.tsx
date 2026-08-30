@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Libre_Baskerville, Mukta } from "next/font/google";
 import {
   SITE_NAME,
-  SITE_TAGLINE,
   STORAGE_KEYS,
   getSiteDescription,
 } from "@/data/site";
@@ -30,17 +29,31 @@ const body = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibeplay.local",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://marathikatta.local",
   ),
   title: {
-    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
-    template: `%s — ${SITE_NAME}`,
+    default: `मराठी गाणी | Marathi Gane Online | ${SITE_NAME}`,
+    template: `%s | ${SITE_NAME}`,
   },
   description: getSiteDescription("mr"),
   applicationName: SITE_NAME,
+  keywords: [
+    "मराठी गाणी",
+    "marathi gane",
+    "marathi songs",
+    "गणपती गाणी",
+    "ganapati gane",
+    "ganpati songs",
+    SITE_NAME,
+  ],
   openGraph: {
     siteName: SITE_NAME,
     type: "website",
+    locale: "mr_IN",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

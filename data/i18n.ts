@@ -17,34 +17,40 @@ const en = {
   scroll: "Scroll",
   pressPlay: "Press play",
   welcomeTo: "Welcome to",
-  faqHeading: "Frequently asked",
+  faqHeading: "Marathi Katta, explained",
   openOnYouTubeMusic: "Open on YouTube Music",
   youtubeMusic: "YouTube Music",
   creditsYoutube: "Credits: YouTube",
   poweredBy: "Powered by",
-  siteTagline: "Marathi songs, one tap away",
+  siteTagline: "Marathi Gani, one tap away",
   metaDescription:
-    "Listen to Marathi songs — a free playlist, one tap away. No account needed.",
+    "Listen to Marathi gani and Ganapati gani online — free Marathi songs and Ganesh playlists. No account needed. Press play and keep listening.",
   notFoundBody: "That page doesn't exist.",
   backHome: "Back home",
   loading: "Loading…",
   footerDisclaimer:
-    "Audio plays through YouTube's player. VibePlay does not host or claim ownership of the music — all rights belong to their respective owners.",
+    "Audio plays through YouTube's player. Marathi Katta does not host or claim ownership of the music — all rights belong to their respective owners.",
   featureMomentTitle: "Made for the moment",
   featureMomentBody:
-    "A non-stop Marathi playlist with simple controls that work on mobile and desktop.",
-  featureVibeTitle: "One tap, full vibe",
+    "A non-stop Marathi gani playlist with simple controls that work on mobile and desktop.",
+  featureVibeTitle: "Marathi, Ganapati & more",
   featureVibeBody:
-    "Marathi hits plus chai, rain, night drives and more — switch moods without leaving the page.",
+    "Switch between Marathi songs, Ganapati gane, love tracks and more — without leaving the page.",
   featureAccountTitle: "No account needed",
   featureAccountBody:
     "Start listening here, or open the same playlist on YouTube Music whenever you want.",
-  faqWhatQ: "What is VibePlay?",
+  faqWhatQ: "What is Marathi Katta?",
   faqWhatA:
-    "VibePlay is a browser-based Marathi music player — press play and listen without creating an account.",
-  faqFreeQ: "Is VibePlay free to use?",
+    "Marathi Katta is a free browser playlist for Marathi gane (मराठी गाणी), Ganapati gane (गणपती गाणी) and more — press play and listen without creating an account.",
+  faqFreeQ: "Is Marathi Katta free to use?",
   faqFreeA:
-    "Yes. Listening here is free. Optional support helps keep the project running, but nothing is required to play.",
+    "Yes. Listening to Marathi songs, Ganapati songs and every mood here is free. Optional support helps keep the project running, but nothing is required to play.",
+  faqMarathiQ: "Where can I listen to Marathi gani online?",
+  faqMarathiA:
+  "Right here on Marathi Katta. Open the Marathi mood, press play, and stream popular Marathi Gani  (मराठी गाणी) in your browser — no download or signup.",
+  faqGanapatiQ: "Where can I play Ganapati gani for free?",
+  faqGanapatiA:
+    "Use the Ganapati mood on Marathi Katta for Ganapati gani, Ganesh aarti and festive ganpati songs. Everything streams free in the browser.",
   faqPhoneQ: "Does it work on a phone?",
   faqPhoneA:
     "Yes. The player is designed for mobile screens, with large play, skip and seek controls for easy use.",
@@ -53,14 +59,12 @@ const en = {
     "Songs play through YouTube's player. You can also open the same playlist on YouTube Music anytime.",
   faqPlaylistQ: "Is there a playlist I can follow?",
   faqPlaylistA:
-    "Yes. Use the YouTube Music button in the footer to open and save the playlist.",
+    "Yes. Use the YouTube Music button in the footer to open and save the Marathi Gani or Ganapati gani playlist.",
   seek: "Seek",
   previousTrack: "Previous track",
   nextTrack: "Next track",
   play: "Play",
   pause: "Pause",
-  mute: "Mute",
-  unmute: "Unmute",
   language: "Language",
   chooseMood: "Choose a mood",
   previousMood: "Previous mood",
@@ -76,34 +80,40 @@ const mr: { [K in keyof typeof en]: string } = {
   scroll: "स्क्रोल",
   pressPlay: "प्ले दाबा",
   welcomeTo: "स्वागत आहे",
-  faqHeading: "वारंवार विचारले जाणारे प्रश्न",
+  faqHeading: "Marathi Katta समजावून सांगितले",
   openOnYouTubeMusic: "YouTube Music वर उघडा",
   youtubeMusic: "YouTube Music",
   creditsYoutube: "क्रेडिट्स: YouTube",
   poweredBy: "द्वारे समर्थित",
   siteTagline: "मराठी गाणी, एका टॅपवर",
   metaDescription:
-    "मराठी गाणी ऐका — लोकप्रिय प्लेलिस्ट, एका टॅपवर. साइनअप नको.",
+    "मराठी गाणी आणि गणपती गाणी ऐका ऑनलाइन — Marathi gane, Ganapati gane मोफत प्लेलिस्ट. साइनअप नको. प्ले दाबा आणि ऐकत रहा.",
   notFoundBody: "ही पेज सापडली नाही.",
   backHome: "मुख्य पेजवर जा",
   loading: "लोड होत आहे…",
   footerDisclaimer:
-    "ऑडिओ YouTube च्या प्लेयरद्वारे वाजतो. VibePlay संगीत होस्ट करत नाही किंवा त्याचा दावा करत नाही — सर्व हक्क त्यांच्या संबंधित मालकांचे आहेत.",
+    "ऑडिओ YouTube च्या प्लेयरद्वारे वाजतो. Marathi Katta संगीत होस्ट करत नाही किंवा त्याचा दावा करत नाही — सर्व हक्क त्यांच्या संबंधित मालकांचे आहेत.",
   featureMomentTitle: "क्षणासाठी बनवले",
   featureMomentBody:
-    "सोप्या कंट्रोल्ससह नॉन-स्टॉप मराठी प्लेलिस्ट — मोबाइल आणि डेस्कटॉपवर सहज चालते.",
-  featureVibeTitle: "एक टॅप, पूर्ण व्हाइब",
+    "सोप्या कंट्रोल्ससह नॉन-स्टॉप मराठी गाणी / Marathi gane प्लेलिस्ट — मोबाइल आणि डेस्कटॉपवर सहज चालते.",
+  featureVibeTitle: "मराठी, गणपती आणि आणखी",
   featureVibeBody:
-    "मराठी हिट्ससोबत चहा, पाऊस, रात्रीचे ड्राइव्ह आणि आणखी — पेज सोडल्याशिवाय मूड बदला.",
+    "मराठी गाणी, गणपती गाने, प्रेमगीते आणि आणखी — पेज सोडल्याशिवाय मूड बदला.",
   featureAccountTitle: "अकाउंट नको",
   featureAccountBody:
     "इथेच ऐका, किंवा हवे असल्यास तोच प्लेलिस्ट YouTube Music वर उघडा.",
-  faqWhatQ: "VibePlay म्हणजे काय?",
+  faqWhatQ: "Marathi Katta म्हणजे काय?",
   faqWhatA:
-    "VibePlay हा ब्राउझर-आधारित मराठी म्युझिक प्लेयर आहे — प्ले दाबा आणि अकाउंट न बनवता ऐका.",
-  faqFreeQ: "VibePlay मोफत आहे का?",
+    "Marathi Katta हे मराठी गाणी (Marathi gane), गणपती गाणी (Ganapati gane) आणि आणखी मूड्ससाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — प्ले दाबा आणि अकाउंट न बनवता ऐका.",
+  faqFreeQ: "Marathi Katta मोफत आहे का?",
   faqFreeA:
-    "हो. इथे ऐकणे मोफत आहे. ऐच्छिक सपोर्ट प्रोजेक्ट चालू ठेवण्यास मदत करते, पण प्ले करण्यासाठी काहीही आवश्यक नाही.",
+    "हो. मराठी गाणी, गणपती गाणी आणि इतर सर्व मूड्स इथे मोफत ऐकता येतात. ऐच्छिक सपोर्ट प्रोजेक्ट चालू ठेवण्यास मदत करते, पण प्ले करण्यासाठी काहीही आवश्यक नाही.",
+  faqMarathiQ: "मराठी गाणी / Marathi gane ऑनलाइन कुठे ऐकायचे?",
+  faqMarathiA:
+    "इथेच Marathi Katta वर. मराठी मूड निवडा, प्ले दाबा आणि लोकप्रिय मराठी गाणी / Marathi gane ब्राउझरमध्ये ऐका — डाउनलोड किंवा साइनअप नको.",
+  faqGanapatiQ: "गणपती गाणी मोफत कुठे प्ले करायची?",
+  faqGanapatiA:
+    "Marathi Katta वरील गणपती मूडमध्ये Ganapati gane, गणेश आरती आणि सणासुदीची गणपती गाणी मोफत स्ट्रीम होतात — फक्त ब्राउझर पुरेसे.",
   faqPhoneQ: "फोनवर चालते का?",
   faqPhoneA:
     "हो. प्लेयर मोबाइल स्क्रीनसाठी डिझाइन केला आहे, मोठ्या प्ले, स्किप आणि सीक कंट्रोल्ससह.",
@@ -112,14 +122,12 @@ const mr: { [K in keyof typeof en]: string } = {
     "गाणी YouTube च्या प्लेयरद्वारे वाजतात. तोच प्लेलिस्ट तुम्ही कधीही YouTube Music वर उघडू शकता.",
   faqPlaylistQ: "फॉलो करण्यासाठी प्लेलिस्ट आहे का?",
   faqPlaylistA:
-    "हो. फूटरमधील YouTube Music बटणाने प्लेलिस्ट उघडा आणि सेव्ह करा.",
+    "हो. फूटरमधील YouTube Music बटणाने मराठी गाणी किंवा गणपती गाणी प्लेलिस्ट उघडा आणि सेव्ह करा.",
   seek: "सीक",
   previousTrack: "मागील गाणे",
   nextTrack: "पुढील गाणे",
   play: "प्ले",
   pause: "थांबवा",
-  mute: "म्यूट",
-  unmute: "अनम्यूट",
   language: "भाषा",
   chooseMood: "मूड निवडा",
   previousMood: "मागील मूड",
@@ -159,6 +167,8 @@ export const FEATURE_KEYS = [
 export const FAQ_KEYS = [
   { questionKey: "faqWhatQ", answerKey: "faqWhatA" },
   { questionKey: "faqFreeQ", answerKey: "faqFreeA" },
+  { questionKey: "faqMarathiQ", answerKey: "faqMarathiA" },
+  { questionKey: "faqGanapatiQ", answerKey: "faqGanapatiA" },
   { questionKey: "faqPhoneQ", answerKey: "faqPhoneA" },
   { questionKey: "faqSourceQ", answerKey: "faqSourceA" },
   { questionKey: "faqPlaylistQ", answerKey: "faqPlaylistA" },

@@ -17,7 +17,7 @@ export function Footer({ playlistId }: FooterProps) {
         {SITE_NAME}
       </p>
       <p className="mt-1 text-sm text-[var(--gold)]/80">
-        {t("siteTagline")} — vibeplay
+        {t("siteTagline")} · {SITE_NAME}
       </p>
 
       <div className="mt-7 flex flex-wrap items-center justify-center gap-3">

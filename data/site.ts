@@ -1,8 +1,8 @@
 import { t, DEFAULT_LOCALE, type Locale } from "@/data/i18n";
 
-export const SITE_NAME = "VibePlay";
+export const SITE_NAME = "Marathi Katta";
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://vibeplay.local";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://marathikatta.local";
 
 export const SUPPORT_URL =
   process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://buymeacoffee.com";
@@ -13,8 +13,7 @@ export const CREATOR = {
 } as const;
 
 export const STORAGE_KEYS = {
-  muted: "vibeplay:muted",
-  locale: "vibeplay:locale",
+  locale: "marathikatta:locale",
 } as const;
 
 export function getSiteTagline(locale: Locale = DEFAULT_LOCALE) {

@@ -8,6 +8,10 @@ export type MoodCopy = {
   tagline: string;
   title: string;
   description: string;
+  /** Search-facing title (no site name — appended in metadata helpers). */
+  seoTitle: string;
+  seoDescription: string;
+  keywords: string[];
   introHeading: string;
   introBody: string;
 };
@@ -46,36 +50,63 @@ export const moods: Mood[] = [
     copy: {
       mr: {
         label: "मराठी धमाल",
-        headline: "मराठी धमाल",
-        subtitle: "मराठी धमाल म्युझिक",
-        flavor: "मराठी धमाल गाणी, एक टॅप दूर",
-        tagline: "मराठी धमाल वाला म्युझिक, एक टॅप दूर",
-        title: "मराठी धमाल गाणी",
+        headline: "मराठी गाणी",
+        subtitle: "मराठी गाणी · MARATHI GANI",
+        flavor: "मराठी गाणी, एक टॅप दूर",
+        tagline: "मराठी गाणी — Marathi Gani, एक टॅप दूर",
+        title: "मराठी गाणी | Marathi Gani",
         description:
-          "मराठी धमाल गाणी ऐका — लोकप्रिय, भावपूर्ण आणि उत्साही ट्रॅक्स एका क्लिकवर.",
-        introHeading: "मराठी धमाल गाण्यांचा प्लेलिस्ट, एका टॅपवर",
+          "मराठी गाणी आणि Marathi gane ऐका — लोकप्रिय, भावपूर्ण आणि धमाल ट्रॅक्स एका क्लिकवर.",
+        seoTitle: "मराठी गाणी | Marathi Gani Online",
+        seoDescription:
+          "मराठी गाणी ऐका ऑनलाइन — Marathi Gani, Marathi songs आणि मराठी धमाल हिट्स मोफत प्लेलिस्टवर. साइनअप नको, एका टॅपवर प्ले.",
+        keywords: [
+          "मराठी गाणी",
+          "marathi gani",
+          "marathi gaani",
+          "marathi songs",
+          "marathi music",
+          "मराठी गाणी",
+          "marathi dhamaal",
+          "मराठी धमाल",
+          "free marathi songs online",
+        ],
+        introHeading: "मराठी गाणी (Marathi Gani) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "VibePlay Marathi Dhamaal हे मराठी धमाल गाण्यांसाठीचे मोफत प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको, काहीही गोंधळ नाही.",
+          "Marathi Katta हे मराठी गाणी / Marathi Gani ऐकण्यासाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय मराठी गाने, धमाल हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको, अॅप नको — फक्त मराठी songs ऑनलाइन, दिवसरात्र.",
       },
       en: {
         label: "Marathi Dhamaal",
-        headline: "Marathi Dhamaal",
-        subtitle: "MARATHI DHAMAAL MUSIC",
-        flavor: "Marathi Dhamaal songs, one tap away",
-        tagline: "Marathi Dhamaal music, one tap away",
-        title: "Marathi Dhamaal Songs",
+        headline: "Marathi Gani",
+        subtitle: "MARATHI SONGS · मराठी गाणी",
+        flavor: "Marathi songs, one tap away",
+        tagline: "Marathi Gani — Marathi songs, one tap away",
+        title: "Marathi Gani | मराठी गाणी",
         description:
-          "Listen to Marathi Dhamaal songs — popular, soulful, and high-energy tracks one tap away.",
-        introHeading: "The Marathi Dhamaal playlist, one tap away",
+          "Listen to Marathi Gani and Marathi songs — popular, soulful, and high-energy tracks one tap away.",
+        seoTitle: "Marathi Gani | Marathi Songs Online",
+        seoDescription:
+          "Listen to Marathi Gani online — free Marathi songs playlist with film hits and dhamaal favourites. No signup. Press play and keep listening.",
+        keywords: [
+          "marathi Gani",
+          "marathi gaane",
+          "marathi songs",
+          "मराठी गाणी",
+          "marathi music",
+          "marathi dhamaal",
+          "free marathi songs online",
+          "marathi playlist",
+        ],
+        introHeading: "Marathi Gani — the free Marathi songs playlist",
         introBody:
-          "VibePlay Marathi Dhamaal is a free playlist for Marathi Dhamaal songs — film hits, popular favourites, and soulful tunes. Open the page, press play, and keep listening. No signup, no fuss.",
+          "Marathi Katta is a free browser playlist for Marathi Gani (मराठी गाणी) — film hits, popular Marathi songs, and soulful favourites. Open the page, press play, and keep the music running all day. No signup, no app — just Marathi songs online.",
       },
     },
   },
   {
     id: "ganapati",
     emoji: "🕉️",
-    playlistId: "RDCLAK5uy_ncYAxWDFN4U0ZVBGSTOZDVHy3LOuspIgo",
+    playlistId: "PLSkpD-A7hg7c",//"RDCLAK5uy_ncYAxWDFN4U0ZVBGSTOZDVHy3LOuspIgo",
     wallpaper: {
       desktop: "/wallpapers/ganapati.png",
       mobile: "/wallpapers/ganapati-mobile.svg",
@@ -84,67 +115,117 @@ export const moods: Mood[] = [
     copy: {
       mr: {
         label: "गणपती",
-        headline: "गणपती",
-        subtitle: "गणपती म्युझिक",
+        headline: "गणपती गाणी",
+        subtitle: "गणपती गाणी · GANAPATI GANI",
         flavor: "गणपती गाणी, एक टॅप दूर",
-        tagline: "गणपती वाला म्युझिक, एक टॅप दूर",
-        title: "गणपती गाणी",
+        tagline: "गणपती गाणी — Ganapati gane, एक टॅप दूर",
+        title: "गणपती गाणी | Ganapati Gane",
         description:
-          "गणपती गाणी ऐका — भक्तिमय आरती, उत्साही गणेश गीते आणि सणाची धमाल एका क्लिकवर.",
-        introHeading: "गणपती गाण्यांचा प्लेलिस्ट, एका टॅपवर",
+          "गणपती गाणी आणि Ganapati gane ऐका — आरती, भक्तिगीते आणि गणेश सणाची धमाल एका क्लिकवर.",
+        seoTitle: "गणपती गाणी | Ganapati Gane Online",
+        seoDescription:
+          "गणपती गाणी ऐका ऑनलाइन — Ganapati gane, गणेश आरती, भक्तिगीते आणि सणासुदीची धमाल मोफत. साइनअप नको, एका टॅपवर प्ले.",
+        keywords: [
+          "गणपती गाणी",
+          "ganapati gane",
+          "ganapati gaane",
+          "ganesh songs",
+          "गणेश आरती",
+          "ganesh aarti",
+          "ganpati songs",
+          "गणपती आरती",
+          "free ganapati songs online",
+        ],
+        introHeading: "गणपती गाणी (Ganapati Gane) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "VibePlay Ganapati हे गणपती गाण्यांसाठीचे मोफत प्लेलिस्ट आहे — आरती, भक्तिगीते आणि सणासुदीची धमाल. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको, काहीही गोंधळ नाही.",
+          "Marathi Katta Ganapati हे गणपती गाणी / Ganapati gane ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — आरती, गणेश भक्तिगीते, गणपती बाप्पा मोरया आणि सणासुदीची धमाल. पेज उघडा, प्ले दाबा आणि गणेश उत्सवाची ऊर्जा ऐकत रहा. साइनअप नको — फक्त ganpati songs ऑनलाइन.",
       },
       en: {
         label: "Ganapati",
-        headline: "Ganapati",
-        subtitle: "GANAPATI MUSIC",
+        headline: "Ganapati Gani",
+        subtitle: "GANPATI SONGS · गणपती गाणी",
         flavor: "Ganapati songs, one tap away",
-        tagline: "Ganapati music, one tap away",
-        title: "Ganapati Songs",
+        tagline: "Ganapati gane — Ganesh songs, one tap away",
+        title: "Ganapati Gane | गणपती गाणी",
         description:
-          "Listen to Ganapati songs — aartis, festive favourites, and high-energy Ganesh tracks one tap away.",
-        introHeading: "The Ganapati playlist, one tap away",
+          "Listen to Ganapati gane and Ganesh songs — aartis, devotionals, and festive tracks one tap away.",
+        seoTitle: "Ganapati Gane | Ganesh Songs Online",
+        seoDescription:
+          "Listen to Ganapati gane online — free Ganesh aarti, bhajans, and festive ganpati songs. No signup. Press play and keep the celebration going.",
+        keywords: [
+          "ganapati gane",
+          "ganapati gaane",
+          "ganpati songs",
+          "ganesh songs",
+          "गणपती गाणी",
+          "ganesh aarti",
+          "गणेश आरती",
+          "free ganapati songs online",
+          "ganpati playlist",
+        ],
+        introHeading: "Ganapati Gane — free Ganesh songs online",
         introBody:
-          "VibePlay Ganapati is a free playlist for Ganapati songs — aartis, devotionals, and festive favourites. Open the page, press play, and keep listening. No signup, no fuss.",
+          "Marathi Katta Ganapati is a free browser playlist for Ganapati gane (गणपती गाणी) — aartis, Ganesh bhajans, and festive favourites for Ganesh Chaturthi and beyond. Open the page, press play, and keep listening. No signup, no app — just ganpati songs online.",
       },
     },
   },
   {
-    id: "preeti",
-    emoji: "🎤",
-    playlistId: "RDATmdl5X",
+    id: "premache-gane",
+    emoji: "❤️",
+    playlistId: "PLW-SIPf6blZs",//"RDATmdl5X",
     wallpaper: {
-      desktop: "/wallpapers/preeti.png",
-      mobile: "/wallpapers/preeti-mobile.svg",
+      desktop: "/wallpapers/premache-gane.png",
+      mobile: "/wallpapers/premache-gane-mobile.svg",
     },
     theme: { accent: "#e8a045", overlay: "rgba(8, 10, 16, 0.4)" },
     copy: {
       mr: {
-        label: "प्रीती",
-        headline: "प्रीती",
-        subtitle: "प्रीती म्युझिक",
-        flavor: "प्रीती गाणी, एक टॅप दूर",
-        tagline: "प्रीती वाला म्युझिक, एक टॅप दूर",
-        title: "प्रीती गाणी",
+        label: "प्रेमाचे गाणे",
+        headline: "प्रेमाचे गाणे",
+        subtitle: "प्रेमगीते · LOVE SONGS",
+        flavor: "प्रेमाचे गाणे, एक टॅप दूर",
+        tagline: "प्रेमाचे गाणे — प्रेमगीते, एक टॅप दूर",
+        title: "प्रेमाचे गाणे | Love Songs",
         description:
-          "प्रीती गाणी ऐका — प्रेमगीते, भावपूर्ण धुन आणि मऊ रोमँटिक ट्रॅक्स एका क्लिकवर.",
-        introHeading: "प्रीती गाण्यांचा प्लेलिस्ट, एका टॅपवर",
+          "प्रेमाचे गाणे आणि प्रेमगीते ऐका — भावपूर्ण धुन आणि मऊ रोमँटिक ट्रॅक्स एका क्लिकवर.",
+        seoTitle: "प्रेमाचे गाणे | Marathi Love Songs Online",
+        seoDescription:
+          "प्रेमाचे गाणे आणि प्रेमगीते ऐका ऑनलाइन — रोमँटिक Marathi love songs मोफत प्लेलिस्टवर. साइनअप नको, एका टॅपवर प्ले.",
+        keywords: [
+          "प्रेमाचे गाणे",
+          "प्रेमगीते",
+          "premache gane",
+          "marathi love songs",
+          "romantic marathi songs",
+          "love songs marathi",
+        ],
+        introHeading: "प्रेमाचे गाणे — मोफत प्रेमगीतांचा प्लेलिस्ट",
         introBody:
-          "VibePlay Preeti हे प्रेमगीतांसाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण गाणी आणि मऊ रोमँटिक धुन. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको, काहीही गोंधळ नाही.",
+          "Marathi Katta Premache Gane हे प्रेमगीते आणि प्रेमाचे गाणे ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण रोमँटिक धुन आणि मऊ love songs. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको.",
       },
       en: {
-        label: "Preeti",
-        headline: "Preeti",
-        subtitle: "PREETI MUSIC",
-        flavor: "Preeti songs, one tap away",
-        tagline: "Preeti music, one tap away",
-        title: "Preeti Songs",
+        label: "Love Songs",
+        headline: "Premache Gane",
+        subtitle: "LOVE SONGS · प्रेमाचे गाणे",
+        flavor: "Love songs, one tap away",
+        tagline: "Premache gane — romantic songs, one tap away",
+        title: "Premache Gane | Love Songs",
         description:
-          "Listen to Preeti songs — romantic favourites, soulful tunes, and soft love tracks one tap away.",
-        introHeading: "The Preeti playlist, one tap away",
+          "Listen to Premache gane and Marathi love songs — romantic favourites and soft soulful tracks one tap away.",
+        seoTitle: "Premache Gane | Marathi Love Songs Online",
+        seoDescription:
+          "Listen to Premache gane online — free romantic Marathi love songs playlist. No signup. Press play and keep listening.",
+        keywords: [
+          "premache gane",
+          "marathi love songs",
+          "romantic marathi songs",
+          "प्रेमाचे गाणे",
+          "प्रेमगीते",
+          "love songs marathi",
+        ],
+        introHeading: "Premache Gane — free Marathi love songs",
         introBody:
-          "VibePlay Preeti is a free playlist for love songs — romantic favourites and soft, soulful tunes. Open the page, press play, and keep listening. No signup, no fuss.",
+          "Marathi Katta Premache Gane is a free browser playlist for love songs and Premache gane — romantic Marathi favourites and soft, soulful tunes. Open the page, press play, and keep listening. No signup, no fuss.",
       },
     },
   },
@@ -174,6 +255,11 @@ export function getMoodCopy(mood: Mood, locale: Locale): MoodCopy {
 
 export function getMoodIds(): string[] {
   return moods.map((mood) => mood.id);
+}
+
+/** Moods that get their own URL path (`/ganapati`, etc.). Default mood is `/`. */
+export function getRoutableMoodIds(): string[] {
+  return moods.filter((mood) => mood.id !== defaultMoodId).map((mood) => mood.id);
 }
 
 export function getYouTubeMusicUrl(playlistId: string): string {

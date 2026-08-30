@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const PLAYER_ELEMENT_ID = "vibeplay-yt-player";
+const PLAYER_ELEMENT_ID = "marathikatta-yt-player";
 /** How long to wait for a playlist to start before treating it as missing. */
 const PLAYLIST_LOAD_TIMEOUT_MS = 3500;
 
@@ -53,7 +53,6 @@ export type TrackInfo = {
 
 type UseYouTubePlayerOptions = {
   initialPlaylistId: string;
-  startMuted?: boolean;
 };
 
 /**
@@ -63,9 +62,7 @@ type UseYouTubePlayerOptions = {
  */
 export function useYouTubePlayer({
   initialPlaylistId,
-  startMuted = false,
 }: UseYouTubePlayerOptions) {
-  const startMutedRef = useRef(startMuted);
   const playlistIdRef = useRef(initialPlaylistId);
   const autoplayRef = useRef(false);
   const playerRef = useRef<YT.Player | null>(null);
@@ -76,7 +73,6 @@ export function useYouTubePlayer({
   const [playerKey, setPlayerKey] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(startMuted);
   const [track, setTrack] = useState<TrackInfo>({
     title: "Press play",
     videoId: null,
@@ -156,11 +152,6 @@ export function useYouTubePlayer({
         events: {
           onReady: (event) => {
             if (cancelled || token !== loadTokenRef.current) return;
-
-            if (startMutedRef.current) {
-              event.target.mute();
-              setIsMuted(true);
-            }
 
             readyRef.current = true;
             setIsReady(true);
@@ -294,25 +285,6 @@ export function useYouTubePlayer({
     }
   }, [pause, play]);
 
-  const mute = useCallback(() => {
-    playerRef.current?.mute();
-    setIsMuted(true);
-  }, []);
-
-  const unmute = useCallback(() => {
-    playerRef.current?.unMute();
-    setIsMuted(false);
-  }, []);
-
-  const toggleMute = useCallback(() => {
-    if (!playerRef.current) return;
-    if (playerRef.current.isMuted()) {
-      unmute();
-    } else {
-      mute();
-    }
-  }, [mute, unmute]);
-
   const next = useCallback(() => {
     playerRef.current?.nextVideo();
   }, []);
@@ -359,16 +331,12 @@ export function useYouTubePlayer({
     playerKey,
     isReady,
     isPlaying,
-    isMuted,
     track,
     currentTime,
     duration,
     play,
     pause,
     togglePlay,
-    mute,
-    unmute,
-    toggleMute,
     next,
     previous,
     seek,

@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ContentSections } from "@/components/ContentSections";
 import { Footer } from "@/components/Footer";
 import { HeroCopy } from "@/components/HeroCopy";
@@ -11,7 +12,8 @@ import { Player } from "@/components/Player";
 import { PlayerBar } from "@/components/PlayerBar";
 import { TopBar } from "@/components/TopBar";
 import { getMoodById, getMoodCopy, moods, type Mood } from "@/data/moods";
-import { SITE_NAME, STORAGE_KEYS } from "@/data/site";
+import { getMoodPath } from "@/data/seo";
+import { SITE_NAME } from "@/data/site";
 import { useMoodTheme } from "@/hooks/useMoodTheme";
 import { useYouTubePlayer } from "@/hooks/useYouTubePlayer";
 
@@ -29,6 +31,7 @@ export function MoodExperience({ initialMood }: MoodExperienceProps) {
 
 function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
   const { locale, t } = useLanguage();
+  const router = useRouter();
   const [activeMood, setActiveMood] = useState(
     () => getMoodById(initialMood.id) ?? moods[0] ?? initialMood,
   );
@@ -44,26 +47,15 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
 
   const copy = getMoodCopy(activeMood, locale);
 
-  const startMuted = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      return localStorage.getItem(STORAGE_KEYS.muted) === "1";
-    } catch {
-      return false;
-    }
-  }, []);
-
   const {
     playerElementId,
     playerKey,
     isReady,
     isPlaying,
-    isMuted,
     track,
     currentTime,
     duration,
     togglePlay,
-    toggleMute,
     next,
     previous,
     seek,
@@ -71,18 +63,17 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
     play,
   } = useYouTubePlayer({
     initialPlaylistId: initialMood.playlistId,
-    startMuted,
   });
 
-  useMoodTheme(activeMood);
-
+  // Sync UI + playlist when the SEO URL changes (carousel, back/forward).
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.muted, isMuted ? "1" : "0");
-    } catch {
-      // ignore
-    }
-  }, [isMuted]);
+    const next = getMoodById(initialMood.id) ?? initialMood;
+    if (next.id === activeMood.id) return;
+    setActiveMood(next);
+    loadMood(next.playlistId, hasUserStarted);
+  }, [initialMood.id, activeMood.id, hasUserStarted, loadMood, initialMood]);
+
+  useMoodTheme(activeMood);
 
   const handleSelectMood = useCallback(
     (moodId: string) => {
@@ -90,7 +81,6 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
       if (!nextMood) return;
 
       const sameMood = nextMood.id === activeMood.id;
-      setActiveMood(nextMood);
       setHasUserStarted(true);
 
       if (sameMood) {
@@ -98,11 +88,13 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
         return;
       }
 
-      // Always request the playlist for this mood. loadMood queues if the
-      // player is not ready yet, so the UI mood and audio stay in sync.
+      // Navigate to the mood's SEO URL so crawlers and shares get the right page.
+      // Soft-load the playlist immediately so audio follows without waiting on RSC.
+      setActiveMood(nextMood);
       loadMood(nextMood.playlistId, true);
+      router.push(getMoodPath(nextMood.id), { scroll: false });
     },
-    [activeMood.id, isReady, loadMood, play],
+    [activeMood.id, isReady, loadMood, play, router],
   );
 
   const handleTogglePlay = useCallback(() => {
@@ -140,7 +132,6 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
           <PlayerBar
             isReady={isReady}
             isPlaying={isPlaying}
-            isMuted={isMuted}
             title={hasUserStarted ? track.title : t("pressPlay")}
             videoId={track.videoId}
             currentTime={currentTime}
@@ -149,7 +140,6 @@ function MoodExperienceInner({ initialMood }: MoodExperienceProps) {
             onPrevious={previous}
             onNext={next}
             onSeek={seek}
-            onToggleMute={toggleMute}
           />
         </div>
       </section>

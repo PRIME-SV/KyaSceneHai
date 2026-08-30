@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { getMoodCopy, type Mood } from "@/data/moods";
+import { getMoodPath } from "@/data/seo";
 
 type MoodCarouselProps = {
   moods: Mood[];
@@ -13,7 +15,7 @@ type MoodCarouselProps = {
 export function MoodCarousel({ moods, activeId, onSelect }: MoodCarouselProps) {
   const { locale, t } = useLanguage();
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const activeRef = useRef<HTMLButtonElement>(null);
+  const activeRef = useRef<HTMLAnchorElement>(null);
   const [overflows, setOverflows] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -107,15 +109,20 @@ export function MoodCarousel({ moods, activeId, onSelect }: MoodCarouselProps) {
           {moods.map((mood) => {
             const active = mood.id === activeId;
             const label = getMoodCopy(mood, locale).label;
+            const href = getMoodPath(mood.id);
             return (
-              <button
+              <Link
                 key={mood.id}
+                href={href}
                 ref={active ? activeRef : undefined}
-                type="button"
                 role="option"
                 aria-selected={active}
-                onClick={() => onSelect(mood.id)}
                 title={label}
+                scroll={false}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onSelect(mood.id);
+                }}
                 className={[
                   "mood-button inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-sm transition duration-300",
                   overflows ? "snap-center" : "",
@@ -132,7 +139,7 @@ export function MoodCarousel({ moods, activeId, onSelect }: MoodCarouselProps) {
                 <span className="whitespace-nowrap font-medium tracking-wide">
                   {label}
                 </span>
-              </button>
+              </Link>
             );
           })}
         </div>
