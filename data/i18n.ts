@@ -21,7 +21,7 @@ const en = {
   openOnYouTubeMusic: "Open on YouTube Music",
   youtubeMusic: "YouTube Music",
   creditsYoutube: "Credits: YouTube",
-  poweredBy: "Powered by",
+  poweredBy: "Developed by",
   siteTagline: "Marathi Gani, one tap away",
   metaDescription:
     "Listen to Marathi gani and Ganapati gani online — free Marathi songs and Ganesh playlists. No account needed. Press play and keep listening.",
@@ -84,10 +84,10 @@ const mr: { [K in keyof typeof en]: string } = {
   openOnYouTubeMusic: "YouTube Music वर उघडा",
   youtubeMusic: "YouTube Music",
   creditsYoutube: "क्रेडिट्स: YouTube",
-  poweredBy: "द्वारे समर्थित",
+  poweredBy: "द्वारे विकसित",
   siteTagline: "मराठी गाणी, एका टॅपवर",
   metaDescription:
-    "मराठी गाणी आणि गणपती गाणी ऐका ऑनलाइन — Marathi gane, Ganapati gane मोफत प्लेलिस्ट. साइनअप नको. प्ले दाबा आणि ऐकत रहा.",
+    "मराठी गाणी आणि गणपती गाणी ऐका ऑनलाइन — Marathi gane, Ganapati gane मोफत प्लेलिस्ट. साइनअप नको. प्ले कराआणि ऐकत रहा.",
   notFoundBody: "ही पेज सापडली नाही.",
   backHome: "मुख्य पेजवर जा",
   loading: "लोड होत आहे…",
@@ -96,24 +96,24 @@ const mr: { [K in keyof typeof en]: string } = {
   featureMomentTitle: "क्षणासाठी बनवले",
   featureMomentBody:
     "सोप्या कंट्रोल्ससह नॉन-स्टॉप मराठी गाणी / Marathi gane प्लेलिस्ट — मोबाइल आणि डेस्कटॉपवर सहज चालते.",
-  featureVibeTitle: "मराठी, गणपती आणि आणखी",
+  featureVibeTitle: "मराठी, गणेशोत्सव आणि बरंच काही",
   featureVibeBody:
-    "मराठी गाणी, गणपती गाने, प्रेमगीते आणि आणखी — पेज सोडल्याशिवाय मूड बदला.",
+    "मराठी गाणी, गणेशोत्सव गाने, प्रेमगीते आणि बरंच काही — पेज सोडल्याशिवाय मूड बदला.",
   featureAccountTitle: "अकाउंट नको",
   featureAccountBody:
     "इथेच ऐका, किंवा हवे असल्यास तोच प्लेलिस्ट YouTube Music वर उघडा.",
   faqWhatQ: "Marathi Katta म्हणजे काय?",
   faqWhatA:
-    "Marathi Katta हे मराठी गाणी (Marathi gane), गणपती गाणी (Ganapati gane) आणि आणखी मूड्ससाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — प्ले दाबा आणि अकाउंट न बनवता ऐका.",
+    "Marathi Katta हे मराठी गाणी (Marathi gane), गणेशोत्सव गाणी (Ganapati gane) आणि बरंच काही मोफत ब्राउझर प्लेलिस्ट आहे — प्ले कराआणि अकाउंट न बनवता ऐका.",
   faqFreeQ: "Marathi Katta मोफत आहे का?",
   faqFreeA:
     "हो. मराठी गाणी, गणपती गाणी आणि इतर सर्व मूड्स इथे मोफत ऐकता येतात. ऐच्छिक सपोर्ट प्रोजेक्ट चालू ठेवण्यास मदत करते, पण प्ले करण्यासाठी काहीही आवश्यक नाही.",
   faqMarathiQ: "मराठी गाणी / Marathi gane ऑनलाइन कुठे ऐकायचे?",
   faqMarathiA:
-    "इथेच Marathi Katta वर. मराठी मूड निवडा, प्ले दाबा आणि लोकप्रिय मराठी गाणी / Marathi gane ब्राउझरमध्ये ऐका — डाउनलोड किंवा साइनअप नको.",
+    "इथेच Marathi Katta वर. मराठी मूड निवडा, प्ले कराआणि लोकप्रिय मराठी गाणी / Marathi gane ब्राउझरमध्ये ऐका — डाउनलोड किंवा साइनअप नको.",
   faqGanapatiQ: "गणपती गाणी मोफत कुठे प्ले करायची?",
   faqGanapatiA:
-    "Marathi Katta वरील गणपती मूडमध्ये Ganapati gane, गणेश आरती आणि सणासुदीची गणपती गाणी मोफत स्ट्रीम होतात — फक्त ब्राउझर पुरेसे.",
+    "Marathi Katta वरील गणेशोत्सवातील Ganapati gane, गणेश आरती आणि सणासुदीची गणपती गाणी मोफत स्ट्रीम होतात — फक्त ब्राउझर पुरेसे.",
   faqPhoneQ: "फोनवर चालते का?",
   faqPhoneA:
     "हो. प्लेयर मोबाइल स्क्रीनसाठी डिझाइन केला आहे, मोठ्या प्ले, स्किप आणि सीक कंट्रोल्ससह.",

@@ -73,7 +73,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "मराठी गाणी (Marathi Gani) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "Marathi Katta हे मराठी गाणी / Marathi Gani ऐकण्यासाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय मराठी गाने, धमाल हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको, अॅप नको — फक्त मराठी songs ऑनलाइन, दिवसरात्र.",
+          "Marathi Katta हे मराठी गाणी / Marathi Gani ऐकण्यासाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय मराठी गाने, धमाल हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको, अॅप नको — फक्त मराठी songs ऑनलाइन, दिवसरात्र.",
       },
       en: {
         label: "Marathi Dhamaal",
@@ -115,8 +115,8 @@ export const moods: Mood[] = [
     copy: {
       mr: {
         label: "गणपती",
-        headline: "गणपती गाणी",
-        subtitle: "गणपती गाणी · GANAPATI GANI",
+        headline: "गणेशोत्सवातील गाणी",
+        subtitle: "गणेशोत्सवातील गाणी · GANAPATI GANI",
         flavor: "गणपती गाणी, एक टॅप दूर",
         tagline: "गणपती गाणी — Ganapati gane, एक टॅप दूर",
         title: "गणपती गाणी | Ganapati Gane",
@@ -138,15 +138,15 @@ export const moods: Mood[] = [
         ],
         introHeading: "गणपती गाणी (Ganapati Gane) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "Marathi Katta Ganapati हे गणपती गाणी / Ganapati gane ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — आरती, गणेश भक्तिगीते, गणपती बाप्पा मोरया आणि सणासुदीची धमाल. पेज उघडा, प्ले दाबा आणि गणेश उत्सवाची ऊर्जा ऐकत रहा. साइनअप नको — फक्त ganpati songs ऑनलाइन.",
+          "Marathi Katta Ganapati हे गणपती गाणी / Ganapati gane ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — आरती, गणेश भक्तिगीते, गणपती बाप्पा मोरया आणि सणासुदीची धमाल. पेज उघडा, प्ले कराआणि गणेश उत्सवाची ऊर्जा ऐकत रहा. साइनअप नको — फक्त ganpati songs ऑनलाइन.",
       },
       en: {
         label: "Ganapati",
         headline: "Ganapati Gani",
-        subtitle: "GANPATI SONGS · गणपती गाणी",
+        subtitle: "GANPATI SONGS · गणेशोत्सव गाणी",
         flavor: "Ganapati songs, one tap away",
         tagline: "Ganapati gane — Ganesh songs, one tap away",
-        title: "Ganapati Gane | गणपती गाणी",
+        title: "Ganapati Gane | गणेशोत्सव गाणी",
         description:
           "Listen to Ganapati gane and Ganesh songs — aartis, devotionals, and festive tracks one tap away.",
         seoTitle: "Ganapati Gane | Ganesh Songs Online",
@@ -158,6 +158,7 @@ export const moods: Mood[] = [
           "ganpati songs",
           "ganesh songs",
           "गणपती गाणी",
+          "गणेशोत्सव",
           "ganesh aarti",
           "गणेश आरती",
           "free ganapati songs online",
@@ -201,7 +202,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "प्रेमाचे गाणे — मोफत प्रेमगीतांचा प्लेलिस्ट",
         introBody:
-          "Marathi Katta Premache Gane हे प्रेमगीते आणि प्रेमाचे गाणे ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण रोमँटिक धुन आणि मऊ love songs. पेज उघडा, प्ले दाबा आणि ऐकत रहा. साइनअप नको.",
+          "Marathi Katta Premache Gane हे प्रेमगीते आणि प्रेमाचे गाणे ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण रोमँटिक धुन आणि मऊ love songs. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको.",
       },
       en: {
         label: "Love Songs",
@@ -263,5 +264,6 @@ export function getRoutableMoodIds(): string[] {
 }
 
 export function getYouTubeMusicUrl(playlistId: string): string {
-  return `https://music.youtube.com/playlist?list=${playlistId}`;
+  //return `https://music.youtube.com/playlist?list=${playlistId}`;
+  return `https://www.youtube.com/`;
 }

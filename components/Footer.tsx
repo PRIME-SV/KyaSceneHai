@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/components/LanguageProvider";
+import { SiteLogo } from "@/components/SiteLogo";
 import { getYouTubeMusicUrl } from "@/data/moods";
 import { CREATOR, SITE_NAME, SUPPORT_URL } from "@/data/site";
 
@@ -13,10 +14,10 @@ export function Footer({ playlistId }: FooterProps) {
 
   return (
     <footer className="border-t border-white/[0.04] bg-[var(--background)] px-5 pt-10 pb-12 text-center sm:px-8 sm:pt-12 sm:pb-14">
-      <p className="font-display text-2xl font-bold tracking-wide text-[var(--gold)] sm:text-3xl">
-        {SITE_NAME}
-      </p>
-      <p className="mt-1 text-sm text-[var(--gold)]/80">
+      <div className="flex justify-center">
+        <SiteLogo size={56} showWordmark />
+      </div>
+      <p className="mt-2 text-sm text-[var(--gold)]/80">
         {t("siteTagline")} · {SITE_NAME}
       </p>
 
@@ -48,7 +49,6 @@ export function Footer({ playlistId }: FooterProps) {
       <p className="mt-6 text-sm text-white/45">
         {t("poweredBy")}{" "}
         <a
-          href={CREATOR.url}
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-[var(--gold)] transition hover:underline"
