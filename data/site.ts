@@ -5,7 +5,7 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://marathikatta.local";
 
 export const SUPPORT_URL =
-  process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://buymeacoffee.com";
+  process.env.NEXT_PUBLIC_SUPPORT_URL ?? "https://buymeacoffee.com/primesv";
 
 export const CREATOR = {
   name: "SDV",
