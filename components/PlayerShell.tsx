@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { MoodExperience } from "@/components/MoodExperience";
 import {
   defaultMoodId,
@@ -11,8 +11,9 @@ import {
   type Mood,
 } from "@/data/moods";
 
-function moodFromPathname(pathname: string): Mood | null {
-  const segment = pathname.replace(/^\//, "").split("/")[0] ?? "";
+function moodFromRoute(pathname: string, moodParam?: string): Mood | null {
+  const segment =
+    moodParam || pathname.replace(/^\//, "").split("/")[0] || "";
   if (!segment || segment === defaultMoodId) {
     return marathiMood;
   }
@@ -29,7 +30,11 @@ function moodFromPathname(pathname: string): Mood | null {
  */
 export function PlayerShell() {
   const pathname = usePathname();
-  const mood = useMemo(() => moodFromPathname(pathname), [pathname]);
+  const params = useParams<{ mood?: string }>();
+  const mood = useMemo(
+    () => moodFromRoute(pathname, params.mood),
+    [pathname, params.mood],
+  );
 
   if (!mood) return null;
 

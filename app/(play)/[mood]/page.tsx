@@ -16,8 +16,6 @@ export function generateStaticParams() {
   return getRoutableMoodIds().map((mood) => ({ mood }));
 }
 
-export const dynamicParams = false;
-
 export async function generateMetadata({
   params,
 }: MoodPageProps): Promise<Metadata> {

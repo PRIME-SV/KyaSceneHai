@@ -44,7 +44,7 @@ export const moods: Mood[] = [
     playlistId: "PLZnrfG2Bq2mM",
     wallpaper: {
       desktop: "/wallpapers/marathi.png",
-      mobile: "/wallpapers/marathi-mobile.svg",
+      mobile: "/wallpapers/marathi.png",
     },
     theme: { accent: "#c4a06a", overlay: "rgba(12, 8, 4, 0.5)" },
     copy: {
@@ -109,7 +109,7 @@ export const moods: Mood[] = [
     playlistId: "PLSkpD-A7hg7c",//"RDCLAK5uy_ncYAxWDFN4U0ZVBGSTOZDVHy3LOuspIgo",
     wallpaper: {
       desktop: "/wallpapers/ganapati.png",
-      mobile: "/wallpapers/ganapati-mobile.svg",
+      mobile: "/wallpapers/ganapati.png",
     },
     theme: { accent: "#d4a05a", overlay: "rgba(12, 8, 4, 0.45)" },
     copy: {
@@ -175,7 +175,7 @@ export const moods: Mood[] = [
     playlistId: "PLW-SIPf6blZs",//"RDATmdl5X",
     wallpaper: {
       desktop: "/wallpapers/premache-gane.png",
-      mobile: "/wallpapers/premache-gane-mobile.svg",
+      mobile: "/wallpapers/premache-gane.png",
     },
     theme: { accent: "#e8a045", overlay: "rgba(8, 10, 16, 0.4)" },
     copy: {

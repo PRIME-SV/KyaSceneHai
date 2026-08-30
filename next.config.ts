@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/ganpati",
+        destination: "/ganapati",
+        permanent: true,
+      },
+      {
+        source: "/preeti",
+        destination: "/premache-gane",
+        permanent: true,
+      },
     ];
   },
 };
