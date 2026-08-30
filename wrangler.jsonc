@@ -1,5 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // Workers Builds (Settings > Build):
+  //   Build command:  npx opennextjs-cloudflare build
+  //   Deploy command: npx opennextjs-cloudflare deploy
+  //   Non-production: npx opennextjs-cloudflare upload
+  // `wrangler deploy` alone fails: it looks for .open-next from a prior OpenNext build.
   "main": ".open-next/worker.js",
   "name": "kyascenehai",
   "compatibility_date": "2026-08-30",
