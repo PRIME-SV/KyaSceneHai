@@ -1,6 +1,6 @@
 import { t, DEFAULT_LOCALE, type Locale } from "@/data/i18n";
 
-export const SITE_NAME = "Marathi Katta";
+export const SITE_NAME = "Marathi Music Katta";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://marathikatta.local";
 

@@ -1,4 +1,4 @@
-# Marathi Katta
+# Marathi Music Katta
 
 Mood-based music player: pick a vibe, get a wallpaper, theme, and YouTube playlist.
 

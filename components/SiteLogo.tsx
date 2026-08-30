@@ -3,12 +3,12 @@ import { SITE_NAME } from "@/data/site";
 
 type SiteLogoProps = {
   size?: number;
-  /** Show Devanagari wordmark मराठी कट्टा beside the mark. */
+  /** Show Devanagari wordmark मराठी म्यूजिक कट्टा beside the mark. */
   showWordmark?: boolean;
   className?: string;
 };
 
-/** Marathi brand mark — Devanagari "म" for Marathi Katta. */
+/** Marathi brand mark — Devanagari "म" for Marathi Music Katta. */
 export function SiteLogo({
   size = 36,
   showWordmark = false,
@@ -26,7 +26,7 @@ export function SiteLogo({
       />
       {showWordmark ? (
         <span className="font-display text-xl font-bold tracking-wide text-[var(--gold)] sm:text-2xl">
-          मराठी कट्टा
+          मराठी संगीत कट्टा
           <span className="sr-only"> ({SITE_NAME})</span>
         </span>
       ) : (

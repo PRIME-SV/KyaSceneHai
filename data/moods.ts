@@ -73,7 +73,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "मराठी गाणी (Marathi Gani) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "Marathi Katta हे मराठी गाणी / Marathi Gani ऐकण्यासाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय मराठी गाने, धमाल हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको, अॅप नको — फक्त मराठी songs ऑनलाइन, दिवसरात्र.",
+          "Marathi Music Katta हे मराठी गाणी / Marathi Gani ऐकण्यासाठीचे मोफत ब्राउझर प्लेलिस्ट आहे — चित्रपट गीते, लोकप्रिय मराठी गाने, धमाल हिट्स आणि भावपूर्ण धुन. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको, अॅप नको — फक्त मराठी songs ऑनलाइन, दिवसरात्र.",
       },
       en: {
         label: "Marathi Dhamaal",
@@ -99,7 +99,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "Marathi Gani — the free Marathi songs playlist",
         introBody:
-          "Marathi Katta is a free browser playlist for Marathi Gani (मराठी गाणी) — film hits, popular Marathi songs, and soulful favourites. Open the page, press play, and keep the music running all day. No signup, no app — just Marathi songs online.",
+          "Marathi Music Katta is a free browser playlist for Marathi Gani (मराठी गाणी) — film hits, popular Marathi songs, and soulful favourites. Open the page, press play, and keep the music running all day. No signup, no app — just Marathi songs online.",
       },
     },
   },
@@ -138,7 +138,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "गणपती गाणी (Ganapati Gane) — मोफत ऑनलाइन प्लेलिस्ट",
         introBody:
-          "Marathi Katta Ganapati हे गणपती गाणी / Ganapati gane ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — आरती, गणेश भक्तिगीते, गणपती बाप्पा मोरया आणि सणासुदीची धमाल. पेज उघडा, प्ले कराआणि गणेश उत्सवाची ऊर्जा ऐकत रहा. साइनअप नको — फक्त ganpati songs ऑनलाइन.",
+          "Marathi Music Katta Ganapati हे गणपती गाणी / Ganapati gane ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — आरती, गणेश भक्तिगीते, गणपती बाप्पा मोरया आणि सणासुदीची धमाल. पेज उघडा, प्ले कराआणि गणेश उत्सवाची ऊर्जा ऐकत रहा. साइनअप नको — फक्त ganpati songs ऑनलाइन.",
       },
       en: {
         label: "Ganapati",
@@ -166,7 +166,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "Ganapati Gane — free Ganesh songs online",
         introBody:
-          "Marathi Katta Ganapati is a free browser playlist for Ganapati gane (गणपती गाणी) — aartis, Ganesh bhajans, and festive favourites for Ganesh Chaturthi and beyond. Open the page, press play, and keep listening. No signup, no app — just ganpati songs online.",
+          "Marathi Music Katta Ganapati is a free browser playlist for Ganapati gane (गणपती गाणी) — aartis, Ganesh bhajans, and festive favourites for Ganesh Chaturthi and beyond. Open the page, press play, and keep listening. No signup, no app — just ganpati songs online.",
       },
     },
   },
@@ -202,7 +202,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "प्रेमाचे गाणे — मोफत प्रेमगीतांचा प्लेलिस्ट",
         introBody:
-          "Marathi Katta Premache Gane हे प्रेमगीते आणि प्रेमाचे गाणे ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण रोमँटिक धुन आणि मऊ love songs. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको.",
+          "Marathi Music Katta Premache Gane हे प्रेमगीते आणि प्रेमाचे गाणे ऐकण्यासाठीचे मोफत प्लेलिस्ट आहे — भावपूर्ण रोमँटिक धुन आणि मऊ love songs. पेज उघडा, प्ले कराआणि ऐकत रहा. साइनअप नको.",
       },
       en: {
         label: "Love Songs",
@@ -226,7 +226,7 @@ export const moods: Mood[] = [
         ],
         introHeading: "Premache Gane — free Marathi love songs",
         introBody:
-          "Marathi Katta Premache Gane is a free browser playlist for love songs and Premache gane — romantic Marathi favourites and soft, soulful tunes. Open the page, press play, and keep listening. No signup, no fuss.",
+          "Marathi Music Katta Premache Gane is a free browser playlist for love songs and Premache gane — romantic Marathi favourites and soft, soulful tunes. Open the page, press play, and keep listening. No signup, no fuss.",
       },
     },
   },
